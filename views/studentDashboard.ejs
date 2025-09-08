@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Dashboard</title>
+  <style>
+    body {
+      font-family: "Inter", sans-serif;
+      background: #f9fafb;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #4f46e5;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+    header h1 {
+      font-size: 1.2rem;
+      margin: 0;
+    }
+    .account-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #6366f1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .profile-box {
+      position: absolute;
+      top: 70px;
+      right: 20px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 250px;
+      padding: 16px;
+      display: none;
+      z-index: 100;
+    }
+    .profile-box p {
+      margin: 6px 0;
+      font-size: 14px;
+      color: #374151;
+    }
+    .logout-btn {
+      margin-top: 12px;
+      width: 100%;
+      padding: 8px;
+      border: none;
+      border-radius: 6px;
+      background: #ef4444;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .logout-btn:hover {
+      background: #dc2626;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+    h2 {
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      color: #333;
+    }
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .card h3 {
+      margin: 0;
+      font-size: 1.25rem;
+      color: #4f46e5;
+    }
+    .card p {
+      margin: 0.5rem 0;
+      color: #555;
+    }
+    .meta {
+      font-size: 0.9rem;
+      color: #666;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Student Dashboard</h1>
+    <div class="account-icon"><%= student.userName[0].toUpperCase() %></div>
+    <div class="profile-box" id="profileBox">
+      <p><strong>Username:</strong> <%= student.userName %></p>
+      <p><strong>Roll No:</strong> <%= student.rollNo %></p>
+      <p><strong>Department:</strong> <%= student.department %></p>
+      <p><strong>Year:</strong> <%= student.year %></p>
+      <form action="/logout" method="POST">
+        <button type="submit" class="logout-btn">Logout</button>
+      </form>
+    </div>
+  </header>
+
+  <div class="container">
+    <h2>Upcoming Events</h2>
+    <% if (events.length === 0) { %>
+      <p>No events available.</p>
+    <% } %>
+    <% events.forEach(event => { %>
+      <div class="card">
+        <h3><%= event.title %></h3>
+        <p><strong>Description:</strong> <%= event.description %></p>
+        <p><strong>Organized by:</strong> <%= event.department %></p>
+        <p class="meta"><strong>Start:</strong> <%= new Date(event.startAt).toLocaleString() %></p>
+        <p class="meta"><strong>End:</strong> <%= new Date(event.endAt).toLocaleString() %></p>
+        <p><strong>Mode:</strong> <%= event.mode %></p>
+        <% if (event.mode === "offline" && event.address) { %>
+          <p><strong>Address:</strong> <%= event.address %></p>
+        <% } %>
+      </div>
+    <% }) %>
+  </div>
+
+  <script>
+    const accountIcon = document.querySelector(".account-icon");
+    const profileBox = document.getElementById("profileBox");
+
+    accountIcon.addEventListener("click", () => {
+      profileBox.style.display =
+        profileBox.style.display === "block" ? "none" : "block";
+    });
+
+    // Close on outside click
+    document.addEventListener("click", (e) => {
+      if (!accountIcon.contains(e.target) && !profileBox.contains(e.target)) {
+        profileBox.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>

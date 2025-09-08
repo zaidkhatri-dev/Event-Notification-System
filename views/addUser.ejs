@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add User</title>
+  <style>
+    body {
+      font-family: Inter, sans-serif;
+      background: #f3f4f6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .form-container {
+      background: #fff;
+      padding: 32px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 24px;
+      color: #111827;
+    }
+    .form-group {
+      margin-bottom: 16px;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+      color: #374151;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #4f46e5;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #4338ca;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Add User</h2>
+    <form action="http://localhost:3000/dashboard/addUser" method="POST">
+      <!-- Role Selection -->
+      <div class="form-group">
+        <label for="role">Role</label>
+        <select id="role" name="role" required onchange="toggleFields()">
+          <option value="">Select role</option>
+          <option value="teacher">Teacher</option>
+          <option value="student">Student</option>
+        </select>
+      </div>
+
+      <!-- Common Fields -->
+      <div class="form-group">
+        <label for="userName">Username</label>
+        <input type="text" id="userName" name="userName" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+
+      <!-- Teacher Fields -->
+      <div id="teacherFields" class="hidden">
+        <div class="form-group">
+          <label for="teacherDepartment">Department</label>
+          <input type="text" id="teacherDepartment" name="teacherDepartment">
+        </div>
+      </div>
+
+      <!-- Student Fields -->
+      <div id="studentFields" class="hidden">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email">
+        </div>
+        <div class="form-group">
+          <label for="studentDepartment">Department</label>
+          <input type="text" id="studentDepartment" name="studentDepartment">
+        </div>
+        <div class="form-group">
+          <label for="rollNo">Roll No</label>
+          <input type="text" id="rollNo" name="rollNo">
+        </div>
+        <div class="form-group">
+          <label for="year">Year</label>
+          <input type="text" id="year" name="year">
+        </div>
+      </div>
+
+      <button type="submit">Add User</button>
+    </form>
+  </div>
+
+  <script>
+    function toggleFields() {
+      const role = document.getElementById("role").value;
+      document.getElementById("teacherFields").classList.add("hidden");
+      document.getElementById("studentFields").classList.add("hidden");
+
+      if (role === "teacher") {
+        document.getElementById("teacherFields").classList.remove("hidden");
+      } else if (role === "student") {
+        document.getElementById("studentFields").classList.remove("hidden");
+      }
+    }
+  </script>
+</body>
+</html>

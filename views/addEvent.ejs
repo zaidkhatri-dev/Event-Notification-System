@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Event</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Inter", sans-serif;
+      background: #f9f9fb;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .form-container {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      width: 100%;
+      max-width: 500px;
+    }
+    h2 {
+      margin-bottom: 1.5rem;
+      text-align: center;
+      color: #4f46e5;
+    }
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #444;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border 0.2s;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: #4f46e5;
+      outline: none;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+    .btn {
+      width: 100%;
+      padding: 0.8rem;
+      background: #4f46e5;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn:hover {
+      background: #4338ca;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Add Event</h2>
+    <form action="/dashboard/addEvent" method="POST">
+      <div class="form-group">
+        <label for="title">Event Title</label>
+        <input type="text" id="title" name="title" required />
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" name="description"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="department">Organized By</label>
+        <input type="text" id="department" name="department" value="<%= department %>" readonly />
+      </div>
+
+      <div class="form-group">
+        <label for="organizedFor">Organized For (Departments)</label>
+        <input type="text" id="organizedFor" name="organizedFor" placeholder="Enter departments separated by commas" required />
+      </div>
+
+      <div class="form-group">
+        <label for="startAt">Start Date & Time</label>
+        <input type="datetime-local" id="startAt" name="startAt" required />
+      </div>
+
+      <div class="form-group">
+        <label for="endAt">End Date & Time</label>
+        <input type="datetime-local" id="endAt" name="endAt" required />
+      </div>
+
+      <div class="form-group">
+        <label for="mode">Mode</label>
+        <select id="mode" name="mode" required>
+          <option value="">Select mode</option>
+          <option value="online">Online</option>
+          <option value="offline">Offline</option>
+        </select>
+      </div>
+
+      <div class="form-group hidden" id="addressField">
+        <label for="address">Address (for offline events)</label>
+        <input type="text" id="address" name="address" />
+      </div>
+
+      <button type="submit" class="btn">Create Event</button>
+    </form>
+  </div>
+
+  <script>
+    const modeSelect = document.getElementById("mode");
+    const addressField = document.getElementById("addressField");
+
+    modeSelect.addEventListener("change", () => {
+      if (modeSelect.value === "offline") {
+        addressField.classList.remove("hidden");
+      } else {
+        addressField.classList.add("hidden");
+      }
+    });
+  </script>
+</body>
+</html>

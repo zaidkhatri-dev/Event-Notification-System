@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Event</title>
+  <style>
+    body { font-family: "Inter", sans-serif; padding: 2rem; }
+    form {
+      max-width: 500px;
+      margin: auto;
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    label { display: block; margin-top: 1rem; font-weight: 500; }
+    input, textarea, select {
+      width: 100%; padding: 0.6rem; margin-top: 0.4rem;
+      border: 1px solid #ccc; border-radius: 8px;
+    }
+    button {
+      margin-top: 1.5rem; padding: 0.7rem 1.2rem;
+      background: #4f46e5; color: white;
+      border: none; border-radius: 8px; cursor: pointer;
+    }
+    button:hover { background: #4338ca; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <h2>Edit Event</h2>
+  <form action="/dashboard/editEvent/<%= event._id %>" method="POST">
+    <label>Title</label>
+    <input type="text" name="title" value="<%= event.title %>" required />
+
+    <label>Description</label>
+    <textarea name="description"><%= event.description %></textarea>
+
+    <label>Organized by</label>
+    <input type="text" name="department" value="<%= event.department %>" readonly />
+
+    <label>Organized For (Departments)</label>
+    <input type="text" name="organizedFor" value="<%= event.organizedFor || '' %>" />
+
+    <label>Start Time</label>
+    <input type="datetime-local" name="startAt" value="<%= new Date(event.startAt).toISOString().slice(0,16) %>" required />
+
+    <label>End Time</label>
+    <input type="datetime-local" name="endAt" value="<%= new Date(event.endAt).toISOString().slice(0,16) %>" required />
+
+    <label>Mode</label>
+    <select name="mode" id="mode" required>
+      <option value="online" <%= event.mode === "online" ? "selected" : "" %>>Online</option>
+      <option value="offline" <%= event.mode === "offline" ? "selected" : "" %>>Offline</option>
+    </select>
+
+    <div id="addressField" class="<%= event.mode === 'online' ? 'hidden' : '' %>">
+      <label>Address</label>
+      <input type="text" name="address" value="<%= event.address || '' %>" />
+    </div>
+
+    <button type="submit">Update Event</button>
+  </form>
+
+  <script>
+    const modeSelect = document.getElementById("mode");
+    const addressField = document.getElementById("addressField");
+
+    function toggleAddressField() {
+      if (modeSelect.value === "offline") {
+        addressField.classList.remove("hidden");
+      } else {
+        addressField.classList.add("hidden");
+      }
+    }
+
+    // Initial check on page load
+    toggleAddressField();
+
+    // Update visibility when mode changes
+    modeSelect.addEventListener("change", toggleAddressField);
+  </script>
+</body>
+</html>

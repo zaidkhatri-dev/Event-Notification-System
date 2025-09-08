@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit User</title>
+  <style>
+    body { font-family: Inter, sans-serif; background: #f3f4f6; }
+    .form-container {
+      max-width: 400px; margin: 50px auto; background: white; padding: 20px;
+      border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h2 { margin-bottom: 20px; }
+    input, select {
+      width: 100%; padding: 8px; margin: 8px 0; border: 1px solid #d1d5db;
+      border-radius: 6px; font-size: 14px;
+    }
+    button {
+      background: #4f46e5; color: white; border: none; padding: 10px; width: 100%;
+      border-radius: 6px; font-size: 16px; cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Edit <%= role %></h2>
+    <form action="/dashboard/editUser/<%= user._id %>?role=<%= role %>" method="POST">
+      <input type="text" name="userName" placeholder="Username" value="<%= user.userName %>" required>
+      
+      <% if (role === "teacher") { %>
+        <input type="text" name="department" placeholder="Department" value="<%= user.department %>" required>
+      <% } else { %>
+        <input type="email" name="email" placeholder="Email" value="<%= user.email %>" required>
+        <input type="text" name="rollNo" placeholder="Roll No" value="<%= user.rollNo %>" required>
+        <input type="text" name="department" placeholder="Department" value="<%= user.department %>" required>
+        <input type="text" name="year" placeholder="Year" value="<%= user.year %>" required>
+      <% } %>
+
+      <button type="submit">Update</button>
+    </form>
+  </div>
+</body>
+</html>
