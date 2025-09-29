@@ -21,7 +21,7 @@ async function broadcastMail(event,isUpdated = null) {
             service: 'gmail',
             auth: {
                 type: 'OAuth2',
-                user: 'zaid.abdulgani.khatri@gmail.com',
+                user: 'zaid.khatri.1055@gmail.com',
                 clientId: CLIENT_ID,
                 clientSecret: CLIENT_SECRET,
                 refreshToken: REFRESH_TOKEN,
@@ -44,7 +44,7 @@ async function broadcastMail(event,isUpdated = null) {
 
 
             if(isUpdated == "U"){
-                title +=`Update Notification: ${event.title}`
+                title =`Update Notification: ${event.title}`
             }
 
             if(isUpdated == "C"){
@@ -53,7 +53,7 @@ async function broadcastMail(event,isUpdated = null) {
             }
             
             const mailOptions = {
-            from: `${event.department} Department<zaid.abdulgani.khatri@gmail.com>`,
+            from: `${event.department} Department<zaid.khatri.1055@gmail.com>`,
             to: `${attende}`,
             subject: title,
             text: body
