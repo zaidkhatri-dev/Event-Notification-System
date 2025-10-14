@@ -65,7 +65,7 @@ async function broadcastMail(event,isUpdated = null) {
 
         
     }catch(err){
-
+        console.log("Error",err)
     }
 }
 
